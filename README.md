@@ -1,39 +1,45 @@
-import { useEffect, useRef } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-const Navbar = ({ search, setSearch, type, setType, parking, setParking }) => {
-  const searchRef = useRef();
+const Login = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    searchRef.current.focus();
-  }, []);
+  const handleLogin = () => {
+    const success = login(email, password);
+    if (success) {
+      if (email === "admin@gmail.com") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/customers/dashboard");
+      }
+    }
+  };
 
   return (
-    <div style={{ marginBottom: "10px" }}>
+    <div>
+      <h2>Login</h2>
+
       <input
-        ref={searchRef}
-        placeholder="Search name or address"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
 
-      <select value={type} onChange={(e) => setType(e.target.value)}>
-        <option value="">All Types</option>
-        <option>Rajasthani</option>
-        <option>Gujarati</option>
-        <option>Mughlai</option>
-        <option>Jain</option>
-        <option>Thai</option>
-        <option>North Indian</option>
-        <option>South Indian</option>
-      </select>
+      <input
+        placeholder="Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-      <select value={parking} onChange={(e) => setParking(e.target.value)}>
-        <option value="">All Parking</option>
-        <option value="true">Parking Yes</option>
-        <option value="false">Parking No</option>
-      </select>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };
 
-export default Navbar;
+export default Login;
+
