@@ -22,7 +22,7 @@ function App() {
         path="/admin/restaurants/update/:id"
         element={
           <ProtectedRoute role="admin">
-            <UpdatedRestaurant />
+            <UpdateRestaurant />
           </ProtectedRoute>
         }
       />
